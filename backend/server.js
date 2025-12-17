@@ -15,8 +15,13 @@ const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
 if (missingEnvVars.length > 0) {
     console.error('❌ Missing required environment variables:', missingEnvVars.join(', '));
-    console.error('Please create a .env file in the backend directory with the required variables.');
-    process.exit(1);
+    console.error('Please set these environment variables in your hosting platform or .env file');
+    console.error('The server will continue but some features may not work properly');
+    // Don't exit in production, just warn
+    if (process.env.NODE_ENV !== 'production') {
+        console.error('Exiting in development mode...');
+        process.exit(1);
+    }
 }
 
 // Debug environment variables
@@ -52,8 +57,34 @@ const authLimiter = rateLimit({
 app.use('/api/', limiter);
 app.use('/api/auth/', authLimiter);
 
-// CORS
-app.use(cors());
+// CORS Configuration
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        // In production, check against allowed origins
+        if (process.env.NODE_ENV === 'production') {
+            const allowedOrigins = process.env.ALLOWED_ORIGINS 
+                ? process.env.ALLOWED_ORIGINS.split(',') 
+                : [];
+            
+            if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        } else {
+            // In development, allow all origins
+            callback(null, true);
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
+};
+
+app.use(cors(corsOptions));
 
 // Body parsing
 app.use(express.json({ limit: '50mb' }));
@@ -113,6 +144,40 @@ mongoose.connection.on('disconnected', () => {
 
 mongoose.connection.on('error', (err) => {
     console.error('❌ MongoDB error:', err);
+});
+
+// Root route - API Documentation
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Educational Platform API',
+        version: '2.0.0',
+        status: 'Running',
+        endpoints: {
+            health: '/health',
+            auth: '/api/auth/*',
+            courses: '/api/courses',
+            subjects: '/api/subjects',
+            attendance: '/api/attendance',
+            quizzes: '/api/quizzes',
+            resources: '/api/resources',
+            internships: '/api/internships',
+            publications: '/api/publications',
+            ai: {
+                assistant: '/api/ai-assistant/ask',
+                quiz: '/api/ai-quiz/generate-quiz',
+                resume: '/api/resume/analyze',
+                voiceInterview: '/api/ai/voice-interview',
+                plagiarism: '/api/plagiarism/check',
+                paperSummarizer: '/api/paper-summarizer/summarize',
+                careerPath: '/api/career-path/recommendations'
+            },
+            youtube: '/api/youtube/search',
+            admin: '/api/admin/*'
+        },
+        documentation: 'Visit /health for system status',
+        timestamp: new Date().toISOString()
+    });
 });
 
 // Health check endpoint
