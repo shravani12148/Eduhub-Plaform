@@ -11,9 +11,9 @@ exports.explainConcept = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -57,9 +57,9 @@ exports.generateSchoolQuiz = async (req, res) => {
         // Use the latest Gemini Pro model
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -140,9 +140,9 @@ exports.getAcademicInsight = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -197,9 +197,9 @@ exports.getAttendancePrediction = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -246,9 +246,9 @@ exports.generatePersonalizedQuiz = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -294,9 +294,9 @@ exports.getRecommendations = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -350,9 +350,9 @@ exports.generateStudyPlan = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -399,9 +399,9 @@ exports.enhanceResume = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;
@@ -442,9 +442,9 @@ exports.getInterviewQuestion = async (req, res) => {
         // Try multiple Gemini models, starting with the most reliable ones
         const candidateModels = [
             "gemini-2.5-flash",
+            "gemini-flash-latest",
             "gemini-2.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.0-pro"
+            "gemini-pro-latest"
         ];
         
         let model;

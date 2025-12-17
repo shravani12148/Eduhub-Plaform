@@ -6,12 +6,14 @@ import { jwtDecode } from 'jwt-decode';
 import Landing from './pages/Landing.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import Layout from './components/Layout.jsx';
 import StudentDashboard from './components/StudentDashboard.jsx';
 import UGDashboard from './components/UG_Dashboard.jsx';
 import PGDashboard from './components/PG_Dashboard.jsx';
 import AdminDashboard from './components/AdminDashboard.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 
 const PrivateRoute = ({ children }) => {
     const token = localStorage.getItem('token');
@@ -51,40 +53,43 @@ function App() {
     const token = localStorage.getItem('token');
     
     return (
-        <Router>
-            <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<Landing />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                
-                {/* Protected Routes */}
-                <Route 
-                    path="/dashboard" 
-                    element={
-                        <PrivateRoute>
-                            <Dashboard />
-                        </PrivateRoute>
-                    } 
-                />
-                <Route 
-                    path="/profile" 
-                    element={
-                        <PrivateRoute>
-                            <Layout>
-                                <ProfilePage />
-                            </Layout>
-                        </PrivateRoute>
-                    } 
-                />
-                
-                {/* Fallback Routes */}
-                <Route 
-                    path="*" 
-                    element={<Navigate to={token ? "/dashboard" : "/"} />} 
-                />
-            </Routes>
-        </Router>
+        <ErrorBoundary>
+            <Router>
+                <Routes>
+                    {/* Public Routes */}
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    
+                    {/* Protected Routes */}
+                    <Route 
+                        path="/dashboard" 
+                        element={
+                            <PrivateRoute>
+                                <Dashboard />
+                            </PrivateRoute>
+                        } 
+                    />
+                    <Route 
+                        path="/profile" 
+                        element={
+                            <PrivateRoute>
+                                <Layout>
+                                    <ProfilePage />
+                                </Layout>
+                            </PrivateRoute>
+                        } 
+                    />
+                    
+                    {/* Fallback Routes */}
+                    <Route 
+                        path="*" 
+                        element={<Navigate to={token ? "/dashboard" : "/"} />} 
+                    />
+                </Routes>
+            </Router>
+        </ErrorBoundary>
     );
 }
 

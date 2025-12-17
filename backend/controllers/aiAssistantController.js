@@ -32,8 +32,9 @@ exports.askQuestion = async (req, res) => {
         
         const candidateModels = [
             "gemini-2.5-flash",
-            "gemini-1.5-flash", 
-            "gemini-1.0-pro"
+            "gemini-flash-latest",
+            "gemini-2.5-pro",
+            "gemini-pro-latest"
         ];
         
         for (const modelId of candidateModels) {

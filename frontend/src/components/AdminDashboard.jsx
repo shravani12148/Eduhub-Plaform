@@ -172,6 +172,7 @@ const AdminDashboard = () => {
         } else if (activeTab === 'logs') {
             loadSystemLogs();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeTab]);
 
     // Reload data when filters change
@@ -181,7 +182,8 @@ const AdminDashboard = () => {
         } else if (activeTab === 'courses') {
             loadCourses();
         }
-    }, [userFilters, courseFilters]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userFilters, courseFilters, activeTab]);
 
     const dashboardStyle = {
         padding: '20px',

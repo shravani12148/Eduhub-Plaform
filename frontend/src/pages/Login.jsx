@@ -15,17 +15,43 @@ const Login = () => {
         if (error) setError('');
     };
 
+    const validateForm = () => {
+        if (!formData.email) {
+            setError('Email is required');
+            return false;
+        }
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            setError('Please enter a valid email address');
+            return false;
+        }
+        if (!formData.password) {
+            setError('Password is required');
+            return false;
+        }
+        if (formData.password.length < 6) {
+            setError('Password must be at least 6 characters');
+            return false;
+        }
+        return true;
+    };
+
     const onSubmit = async e => {
         e.preventDefault();
-        setLoading(true);
         setError('');
+        
+        if (!validateForm()) {
+            return;
+        }
+        
+        setLoading(true);
         
         try {
             const res = await api.post('/auth/login', formData);
             localStorage.setItem('token', res.data.token);
             navigate('/dashboard');
         } catch (err) {
-            setError('Login failed! Please check your credentials.');
+            const errorMsg = err.msg || err.message || 'Login failed! Please check your credentials.';
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -116,9 +142,6 @@ const Login = () => {
                                 placeholder="Enter your password"
                                 required
                             />
-                            <div className="forgot-password">
-                                <Link to="/forgot-password">Forgot your password?</Link>
-                            </div>
                         </div>
 
                         <button 
@@ -136,6 +159,11 @@ const Login = () => {
                             )}
                         </button>
                     </form>
+
+                    {/* Forgot Password Link - Outside form to prevent submission */}
+                    <div className="forgot-password" style={{ textAlign: 'center', marginTop: '1rem' }}>
+                        <Link to="/forgot-password">Forgot your password?</Link>
+                    </div>
 
                     {/* Register Link */}
                     <div className="register-link">
